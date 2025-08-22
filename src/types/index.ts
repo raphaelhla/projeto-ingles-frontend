@@ -98,6 +98,16 @@ export interface AuthResponse {
   token: string;
 }
 
+export interface ChangePasswordRequest {
+  currentPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
+}
+
+export interface GenericMessageResponse {
+  message: string;
+}
+
 export interface ApiError {
   timestamp: string;
   status: number;

@@ -1,13 +1,13 @@
 
 
-interface StatCardProps {
+interface DashboardStatCardProps {
   children: React.ReactNode;
   bgColor: string;
   title: string;
   value: string | number;
 }
 
-export const StatCard = ({ children, bgColor, title, value }: StatCardProps) => (
+export const DashboardStatCard = ({ children, bgColor, title, value }: DashboardStatCardProps) => (
     <div className="bg-white overflow-hidden shadow rounded-lg">
 
         <div className="p-5">

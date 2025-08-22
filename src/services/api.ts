@@ -12,6 +12,8 @@ import type {
   LoginRequest, 
   RegisterRequest, 
   AuthResponse,
+  ChangePasswordRequest,
+  GenericMessageResponse,
   PaginatedResponse
 } from '../types';
 
@@ -58,6 +60,9 @@ export const authApi = {
 export const userApi = {
   getCurrentUser: (): Promise<User> =>
     api.get('/users/me').then(res => res.data),
+
+  changePassword: (data: ChangePasswordRequest): Promise<GenericMessageResponse> =>
+    api.patch('/users/me/change-password', data).then(res => res.data),
 };
 
 // Entry API

@@ -12,6 +12,7 @@ import { QuizPage } from './pages/Quiz';
 import { History } from './pages/History';
 import { QuizDetail } from './pages/QuizDetail';
 import { Stats } from './pages/Stats';
+import { ChangePassword } from './pages/ChangePassword';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -121,6 +122,16 @@ function AppRoutes() {
             <ProtectedRoute>
               <Layout>
                 <Stats />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/change-password"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <ChangePassword />
               </Layout>
             </ProtectedRoute>
           }
