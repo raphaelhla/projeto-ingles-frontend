@@ -8,6 +8,7 @@ export const Navbar = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const profileMenuRef = useRef<HTMLDivElement>(null);
 
     const handleLogout = () => {
@@ -16,6 +17,10 @@ export const Navbar = () => {
     };
 
     const isActive = (path: string) => location.pathname === path;
+
+    const closeMobileMenu = () => {
+        setIsMobileMenuOpen(false);
+    };
 
     // Fechar menu ao clicar fora
     useEffect(() => {
@@ -47,6 +52,7 @@ export const Navbar = () => {
                             </Link>
                         </div>
                         
+                        {/* Desktop Navigation */}
                         <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
                             <Link
                                 to="/"
@@ -105,8 +111,27 @@ export const Navbar = () => {
                         </div>
                     </div>
 
+                    {/* Desktop Profile Menu & Mobile Menu Button */}
                     <div className="flex items-center">
-                        <div className="relative" ref={profileMenuRef}>
+                        {/* Mobile menu button */}
+                        <button
+                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                            className="sm:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none"
+                        >
+                            <span className="sr-only">Abrir menu</span>
+                            {isMobileMenuOpen ? (
+                                <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            ) : (
+                                <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                                </svg>
+                            )}
+                        </button>
+
+                        {/* Desktop Profile Menu */}
+                        <div className="hidden sm:block relative" ref={profileMenuRef}>
                             <button
                                 onClick={toggleProfileMenu}
                                 className="flex items-center text-sm text-gray-700 hover:text-gray-900 focus:outline-none"
@@ -151,6 +176,108 @@ export const Navbar = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Mobile menu */}
+            {isMobileMenuOpen && (
+                <div className="sm:hidden border-t border-gray-200">
+                    <div className="pt-2 pb-3 space-y-1">
+                        <Link
+                            to="/"
+                            onClick={closeMobileMenu}
+                            className={`block pl-3 pr-4 py-2 border-l-4 text-base font-medium ${
+                                isActive('/')
+                                    ? 'bg-blue-50 border-blue-500 text-blue-700'
+                                    : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800'
+                            }`}
+                        >
+                            Dashboard
+                        </Link>
+
+                        <Link
+                            to="/entries"
+                            onClick={closeMobileMenu}
+                            className={`block pl-3 pr-4 py-2 border-l-4 text-base font-medium ${
+                                isActive('/entries')
+                                    ? 'bg-blue-50 border-blue-500 text-blue-700'
+                                    : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800'
+                            }`}
+                        >
+                            Palavras/Frases
+                        </Link>
+
+                        <Link
+                            to="/quiz"
+                            onClick={closeMobileMenu}
+                            className={`block pl-3 pr-4 py-2 border-l-4 text-base font-medium ${
+                                isActive('/quiz')
+                                    ? 'bg-blue-50 border-blue-500 text-blue-700'
+                                    : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800'
+                            }`}
+                        >
+                            Quiz
+                        </Link>
+
+                        <Link
+                            to="/history"
+                            onClick={closeMobileMenu}
+                            className={`block pl-3 pr-4 py-2 border-l-4 text-base font-medium ${
+                                isActive('/history')
+                                    ? 'bg-blue-50 border-blue-500 text-blue-700'
+                                    : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800'
+                            }`}
+                        >
+                            Histórico
+                        </Link>
+
+                        <Link
+                            to="/stats"
+                            onClick={closeMobileMenu}
+                            className={`block pl-3 pr-4 py-2 border-l-4 text-base font-medium ${
+                                isActive('/stats')
+                                    ? 'bg-blue-50 border-blue-500 text-blue-700'
+                                    : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800'
+                            }`}
+                        >
+                            Estatísticas
+                        </Link>
+                    </div>
+
+                    {/* Mobile Profile Section */}
+                    <div className="pt-4 pb-3 border-t border-gray-200">
+                        <div className="flex items-center px-4">
+                            <div className="flex-shrink-0">
+                                <div className="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center">
+                                    <span className="text-white font-medium text-sm">
+                                        {user?.name?.charAt(0).toUpperCase()}
+                                    </span>
+                                </div>
+                            </div>
+                            <div className="ml-3">
+                                <div className="text-base font-medium text-gray-800">{user?.name}</div>
+                                <div className="text-sm font-medium text-gray-500">{user?.email}</div>
+                            </div>
+                        </div>
+                        <div className="mt-3 space-y-1">
+                            <Link
+                                to="/change-password"
+                                onClick={closeMobileMenu}
+                                className="block px-4 py-2 text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-100"
+                            >
+                                Alterar Senha
+                            </Link>
+                            <button
+                                onClick={() => {
+                                    closeMobileMenu();
+                                    handleLogout();
+                                }}
+                                className="block w-full text-left px-4 py-2 text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-100"
+                            >
+                                Sair
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </nav>
     );
 };
