@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { data, useNavigate, useSearchParams } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
-import type { AuthResponse } from '../types';
+import React, { useEffect } from 'react';
+// import axios from 'axios';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+// import { useAuth } from '../hooks/useAuth';
+// import type { AuthResponse } from '../types';
 
 const GoogleCallback: React.FC = () => {
-  const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState<string>('');
+  // const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
+  // const [message, setMessage] = useState('');
+  // const [error, setError] = useState<string>('');
 
 
   const navigate = useNavigate();

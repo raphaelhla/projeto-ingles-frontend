@@ -47,12 +47,12 @@ export const Stats = () => {
   const totalEntries = stats.length;
   const totalDrawn = stats.reduce((sum, stat) => sum + stat.timesDrawn, 0);
   const totalCorrect = stats.reduce((sum, stat) => sum + stat.timesCorrect, 0);
-  const totalWrong = stats.reduce((sum, stat) => sum + stat.timesWrong, 0);
+  // const totalWrong = stats.reduce((sum, stat) => sum + stat.timesWrong, 0);
   const overallAccuracy = totalDrawn > 0 ? Math.round((totalCorrect / totalDrawn) * 100) : 0;
 
   // Sort entries by different criteria
   const mostDrawn = [...stats].sort((a, b) => b.timesDrawn - a.timesDrawn).slice(0, 5);
-  const mostCorrect = [...stats].sort((a, b) => b.timesCorrect - a.timesCorrect).slice(0, 5);
+  // const mostCorrect = [...stats].sort((a, b) => b.timesCorrect - a.timesCorrect).slice(0, 5);
   const mostWrong = [...stats].sort((a, b) => b.timesWrong - a.timesWrong).slice(0, 5);
   const bestAccuracy = [...stats]
     .filter(stat => stat.timesDrawn >= 3) // Only entries with at least 3 attempts

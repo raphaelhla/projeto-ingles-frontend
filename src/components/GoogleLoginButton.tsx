@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAuth } from '../hooks/useAuth';
+// import { useAuth } from '../hooks/useAuth';
 
 interface GoogleLoginButtonProps {
   onSuccess?: () => void;
@@ -7,7 +7,7 @@ interface GoogleLoginButtonProps {
   disabled?: boolean;
 }
 
-export const GoogleLoginButton = ({ onSuccess, onError, disabled }: GoogleLoginButtonProps) => {
+export const GoogleLoginButton = ({ disabled }: GoogleLoginButtonProps) => {
   const [isLoading, setIsLoading] = useState(false);
 //   const { googleLogin } = useAuth();
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
