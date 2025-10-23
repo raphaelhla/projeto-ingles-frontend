@@ -136,6 +136,20 @@ export const Navbar = () => {
                                 onClick={toggleProfileMenu}
                                 className="flex items-center text-sm text-gray-700 hover:text-gray-900 focus:outline-none"
                             >
+                                {/* Avatar */}
+                                <div className="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center mr-2 overflow-hidden">
+                                    {user?.avatarUrl ? (
+                                        <img 
+                                            src={user.avatarUrl} 
+                                            alt={user.name}
+                                            className="h-full w-full object-cover"
+                                        />
+                                    ) : (
+                                        <span className="text-white font-medium text-xs">
+                                            {user?.name?.charAt(0).toUpperCase()}
+                                        </span>
+                                    )}
+                                </div>
                                 <span className="mr-2">Olá, {user?.name}</span>
                                 <svg 
                                     className={`w-4 h-4 transition-transform ${isProfileMenuOpen ? 'rotate-180' : ''}`} 
@@ -246,10 +260,18 @@ export const Navbar = () => {
                     <div className="pt-4 pb-3 border-t border-gray-200">
                         <div className="flex items-center px-4">
                             <div className="flex-shrink-0">
-                                <div className="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center">
-                                    <span className="text-white font-medium text-sm">
-                                        {user?.name?.charAt(0).toUpperCase()}
-                                    </span>
+                                <div className="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center overflow-hidden">
+                                    {user?.avatarUrl ? (
+                                        <img 
+                                            src={user.avatarUrl} 
+                                            alt={user.name}
+                                            className="h-full w-full object-cover"
+                                        />
+                                    ) : (
+                                        <span className="text-white font-medium text-sm">
+                                            {user?.name?.charAt(0).toUpperCase()}
+                                        </span>
+                                    )}
                                 </div>
                             </div>
                             <div className="ml-3">
