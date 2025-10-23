@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuth } from '../hooks/useAuth';
+import { GoogleLoginButton } from '../components/GoogleLoginButton';
 import { loginSchema, type LoginFormData } from '../utils/validation';
 
 export const Login = () => {
@@ -92,6 +93,23 @@ export const Login = () => {
             >
               {isSubmitting ? 'Entrando...' : 'Entrar'}
             </button>
+          </div>
+
+          <div className="relative my-6">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-300" />
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-gray-50 text-gray-500">ou</span>
+            </div>
+          </div>
+
+          <div>
+            <GoogleLoginButton
+              // onSuccess={() => navigate('/')}
+              // onError={(error) => setError(error)}
+              // disabled={isSubmitting}
+            />
           </div>
         </form>
       </div>

@@ -1,7 +1,8 @@
 import { useState, useEffect, createContext, useContext } from 'react';
 import type { ReactNode } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { authApi, userApi } from '../services/api';
+import { useNavigate } from 'react-router-dom';
+import { authApi, userApi, clearAuthTokens } from '../services/api';
 import type { User, LoginRequest, RegisterRequest } from '../types';
 
 interface AuthContextType {
@@ -10,6 +11,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   login: (data: LoginRequest) => Promise<void>;
   register: (data: RegisterRequest) => Promise<void>;
+  // googleLogin: (data: GoogleLoginRequest) => Promise<void>;
   logout: () => void;
 }
 
@@ -20,6 +22,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     !!localStorage.getItem('token')
   );
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const { data: user, isLoading } = useQuery({
     queryKey: ['user'],
@@ -31,7 +34,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const loginMutation = useMutation({
     mutationFn: authApi.login,
     onSuccess: (data) => {
-      localStorage.setItem('token', data.token);
+      localStorage.setItem('token', data.accessToken);
+      // refreshToken é definido automaticamente no cookie pelo backend
       setIsAuthenticated(true);
       queryClient.invalidateQueries({ queryKey: ['user'] });
     },
@@ -39,10 +43,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const registerMutation = useMutation({
     mutationFn: authApi.register,
-    onSuccess: () => {
-      // After registration, user needs to login
+    onSuccess: (data) => {
+      localStorage.setItem('token', data.accessToken);
+      // refreshToken é definido automaticamente no cookie pelo backend
+      setIsAuthenticated(true);
+      queryClient.invalidateQueries({ queryKey: ['user'] });
     },
   });
+
+  // const googleLoginMutation = useMutation({
+  //   mutationFn: authApi.googleLogin,
+  //   onSuccess: (data) => {
+  //     localStorage.setItem('token', data.accessToken);
+  //     setIsAuthenticated(true);
+  //     queryClient.invalidateQueries({ queryKey: ['user'] });
+  //   },
+  // });
 
   const login = async (data: LoginRequest) => {
     await loginMutation.mutateAsync(data);
@@ -52,10 +68,32 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     await registerMutation.mutateAsync(data);
   };
 
+  // const googleLogin = async (data: GoogleLoginRequest) => {
+  //   await googleLoginMutation.mutateAsync(data);
+  // };
+
+  const logoutMutation = useMutation({
+    mutationFn: async () => {
+      try {
+        // Chama o endpoint de logout do backend para limpar o cookie HttpOnly
+        await authApi.logout();
+      } catch (error) {
+        // Mesmo se der erro, limpa o token local
+        console.log('Erro no logout do backend:', error);
+      } finally {
+        // Sempre limpa o token local
+        clearAuthTokens();
+        queryClient.clear();
+      }
+    },
+    onSuccess: () => {
+      navigate('/login');
+    }
+  });
+
   const logout = () => {
-    localStorage.removeItem('token');
+    logoutMutation.mutate();
     setIsAuthenticated(false);
-    queryClient.clear();
   };
 
   useEffect(() => {
@@ -71,6 +109,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         isAuthenticated,
         login,
         register,
+        // googleLogin,
         logout,
       }}
     >

@@ -1,8 +1,16 @@
 export interface User {
   id: string;
-  name: string;
   email: string;
+  name: string;
+  lastname?: string;
+  avatarUrl: string;
   createdAt: string;
+  emailVerified: boolean;
+  role: string;
+  provider: string;
+  canChangePassword: boolean;
+  isAdmin: boolean;
+  isPremiumUser: boolean;
 }
 
 export interface Translation {
@@ -95,7 +103,10 @@ export interface RegisterRequest {
 }
 
 export interface AuthResponse {
-  token: string;
+  accessToken: string;
+  refreshToken: string | null;
+  expiresIn: number;
+  user: User;
 }
 
 export interface ChangePasswordRequest {

@@ -13,7 +13,7 @@ export const registerSchema = z.object({
 
 export const entrySchema = z.object({
   type: z.enum(['WORD', 'PHRASE'], {
-    required_error: 'Tipo é obrigatório',
+    message: 'Tipo é obrigatório',
   }),
   text: z.string().min(1, 'Texto é obrigatório'),
   translations: z.array(
